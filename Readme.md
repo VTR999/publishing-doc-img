@@ -1,1 +1,1 @@
-Testing publish
+Testing publishing a docker image --
