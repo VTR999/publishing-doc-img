@@ -1,40 +1,4 @@
 
-GitHub profile image
-Deselikem
-Deselikem for GitHub
-
-Posted on Aug 10, 2022 • Updated on Aug 11, 2022
-How to Publish a Docker Image to GitHub's Container Registry
-#github
-#docker
-#tutorial
-#devops
-
-During my summer internship, I learned about publishing a docker image to GitHub's Container Registry using GitHub Actions. I decided it would be a nice thing to share so i made a blog post .
-Step 1: Create a new repository
-
-For this tutorial, I'll be naming my repository “publish-to-gcr”. After we're done naming our repository, we're gonna want to make sure that our repository is public.
-
-Image description
-Step 2: Create a file
-
-You can create any program with files of your choice, but for my example, I'll create an app.js file. Inside of the app.js file, I'll console.log the words, "Hello, world!"
-
-Image description
-Step 3: Create a Docker file
-
-At the root of the project, I created a Docker file with the following contents.
-
-FROM node:alpine
-COPY . /app
-WORKDIR /app
-CMD node app.js
-
-Image description
-Step 4: Create an action
-
-At the root of my project, I created a .github/workflows folder. Inside of it, I created a file called publish.yml. Inside of my publish.yml, I wrote the following code (please note that you will need to replace some values such as the user name:
-
 name: publish
 on: [push]
 jobs:
