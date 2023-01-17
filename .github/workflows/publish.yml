@@ -1,0 +1,133 @@
+
+GitHub profile image
+Deselikem
+Deselikem for GitHub
+
+Posted on Aug 10, 2022 • Updated on Aug 11, 2022
+How to Publish a Docker Image to GitHub's Container Registry
+#github
+#docker
+#tutorial
+#devops
+
+During my summer internship, I learned about publishing a docker image to GitHub's Container Registry using GitHub Actions. I decided it would be a nice thing to share so i made a blog post .
+Step 1: Create a new repository
+
+For this tutorial, I'll be naming my repository “publish-to-gcr”. After we're done naming our repository, we're gonna want to make sure that our repository is public.
+
+Image description
+Step 2: Create a file
+
+You can create any program with files of your choice, but for my example, I'll create an app.js file. Inside of the app.js file, I'll console.log the words, "Hello, world!"
+
+Image description
+Step 3: Create a Docker file
+
+At the root of the project, I created a Docker file with the following contents.
+
+FROM node:alpine
+COPY . /app
+WORKDIR /app
+CMD node app.js
+
+Image description
+Step 4: Create an action
+
+At the root of my project, I created a .github/workflows folder. Inside of it, I created a file called publish.yml. Inside of my publish.yml, I wrote the following code (please note that you will need to replace some values such as the user name:
+
+name: publish
+on: [push]
+jobs:
+publish-hello-docker-image:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Login to GitHub Container Registry
+uses: docker/login-action@v1
+with:
+registry: ghcr.io
+username: ${{ github.actor }}
+password: ${{ secrets.GITHUB_TOKEN }}
+- name: Build the hello-docker Docker image
+run: |
+       docker build . --tag ghcr.io/deselikem/hello-docker-gcr-demo:latest
+       docker run ghcr.io/deselikem/hello-docker-gcr-demo:latest
+       docker push ghcr.io/deselikem/hello-docker-gcr-demo:latest
+
+Step 5: Push and commit your changes to trigger the action
+
+Head over to the Actions icon in your repository. You should see the action that we created using the text editor. If everything was done correctly, the actions should have been run and we can go check to see all the steps that the Action took to make sure that it's properly published.
+
+Image description
+Step 6: Check out your package that's been published on GitHub's container registry!
+
+In your repo, if you scroll down, you will see a section highlighting the packages associated with your repository. It should the one you just made!
+
+Image description
+
+Image description
+
+If you prefer video tutorials over blog tutorials, I created a video tutorial for you to follow. Check it out!
+
+Top comments (2)
+pic
+ 
+blackgirlbytes profile image
+•
+Aug 11 '22
+
+niiice!
+Reply
+ 
+egnuez profile image
+•
+Oct 13 '22
+
+Good job! Why "docker run ghcr.io/deselikem/hello-docker-gcr-demo:latest " line?
+Reply
+Code of Conduct • Report abuse
+🌚 Life is too short to browse without dark mode
+Read next
+eduardobueno profile image
+Sobre Kubernetes e a utilização do K6 para efetuar testes de carga/desempenho em um Pod no Cluster do K8s - Parte 1
+
+Eduardo Bueno - Dec 12 '22
+leereilly profile image
+Your GitHub year in review - 10 fun ways to visualize your contributions
+
+Lee Reilly - Jan 9
+fazzaamiarso profile image
+How to Send Invoice and Add Payment Reminder in Next.js with Courier API
+
+Fazza Razaq Amiarso - Jan 3
+bennycode profile image
+Best practices with const assertions in TypeScript
+
+Benny Code - Jan 3
+GitHub
+More from GitHub
+Share your locally hosted web app using Codespaces
+#github #codespaces #cloud #tutorial
+Your GitHub year in review - 10 fun ways to visualize your contributions
+#github #opensource #devjournal #community
+Porque GitHub Codespaces é a melhor ferramenta para seu Workshop de programação
+#braziliandevs #github #tutorial
+
+name: publish
+on: [push]
+jobs:
+publish-hello-docker-image:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Login to GitHub Container Registry
+uses: docker/login-action@v1
+with:
+registry: ghcr.io
+username: ${{ github.actor }}
+password: ${{ secrets.GITHUB_TOKEN }}
+- name: Build the hello-docker Docker image
+run: |
+       docker build . --tag ghcr.io/deselikem/hello-docker-gcr-demo:latest
+       docker run ghcr.io/deselikem/hello-docker-gcr-demo:latest
+       docker push ghcr.io/deselikem/hello-docker-gcr-demo:latest
